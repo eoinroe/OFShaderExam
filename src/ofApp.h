@@ -39,6 +39,7 @@ class ofApp : public ofBaseApp{
         vector<ofxButton> filters;
     
         array<ofParameter<bool>, 4> toggle;
+        array<bool, 4> triggered = {false};
         
         ofxPanel gui;
             

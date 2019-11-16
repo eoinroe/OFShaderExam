@@ -86,17 +86,24 @@ void ofApp::update(){
 void ofApp::draw(){
     
     if (toggle[0]){
-//        for (int i = 0; i < toggle.size(); ++i){
-//            if (i != 0){
-//                toggle[i] = false;
-//            }
-//        }
         
-        if (set == false){
-            toggle[1] = false;
-            toggle[2] = false;
-            toggle[3] = false;
+        if (!triggered[0]){
+            triggered[0] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 0){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
         }
+        
+//        if (triggered[0] == false){
+//            toggle[1] = toggle[2] = toggle[3] = false;
+//            triggered[1] = triggered[2] = triggered[3] = false;
+//
+//            triggered[0] = true;
+//        }
         
         
         chromaticAbberation.begin();
@@ -105,19 +112,26 @@ void ofApp::draw(){
         fbo.draw(0, 0);
         chromaticAbberation.end();
         
-        set = true;
     }
     
     if (toggle[1]){
-//        for (int i = 0; i < toggle.size(); ++i){
-//            if (i != 1){
-//                toggle[i] = false;
-//            }
-//        }
+        if (!triggered[1]){
+            triggered[1] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 1){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
         
-        //toggle[0] = false;
-        //toggle[2] = false;
-        //toggle[3] = false;
+//        if (triggered[1] == false){
+//            toggle[0] = toggle[2] = toggle[3] = false;
+//            triggered[0] = triggered[2] = triggered[3] = false;
+//
+//            triggered[1] = true;
+//        }
         
         crash.begin();
         crash.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
@@ -127,15 +141,23 @@ void ofApp::draw(){
     }
     
     if (toggle[2]){
-//        for (int i = 0; i < toggle.size(); ++i){
-//            if (i != 2){
-//                toggle[i] = false;
-//            }
-//        }
+        if (!triggered[2]){
+            triggered[2] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 2){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
         
-        //toggle[0] = false;
-        //toggle[1] = false;
-        //toggle[3] = false;
+//        if (triggered[2] == false){
+//            toggle[0] = toggle[1] = toggle[3] = false;
+//            triggered[0] = triggered[1] = triggered[3] = false;
+//
+//            triggered[2] = true;
+//        }
         
         wavy.begin();
         wavy.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
