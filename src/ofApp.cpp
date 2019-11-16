@@ -28,21 +28,27 @@ void ofApp::setup(){
     render.load("base");
     //postProcessing.load("base.vert", "crash.frag");
     
-    crash.load("base.vert", "crash.frag");
+    //could write a loop that sets up all the vertex shaders from file?
+    crash.setupShaderFromFile(GL_VERTEX_SHADER, "base.vert");
+    crash.setupShaderFromFile(GL_FRAGMENT_SHADER, "crash.frag");
+    
+    crash.bindDefaults();
+    crash.linkProgram();
+    
+    
+    // Load all the shaders in setup for improved efficiency
+    //crash.load("base.vert", "crash.frag");
     chromaticAbberation.load("base.vert", "chromatic.frag");
     wavy.load("base.vert", "vague.frag");
-    
+    pixelated.load("base.vert", "pixelated.frag");
     
     gui.setup();
        
     gui.add(wireframe.set("Wireframe Mode", false));
-//    gui.add(chromatic.setup("Chromatic Abberation"));
-//    gui.add(crash.setup("Crash"));
-//    gui.add(wavy.setup("Wavy"));
-    
     gui.add(toggle[0].set("Chromatic Abberation", false));
     gui.add(toggle[1].set("Crash", false));
     gui.add(toggle[2].set("Wavy", false));
+    gui.add(toggle[3].set("Pixelated", false));
 }
 
 //--------------------------------------------------------------
@@ -79,14 +85,11 @@ void ofApp::update(){
     ofDisableDepthTest();
     
     fbo.end();
-
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
     if (toggle[0]){
-        
         if (!triggered[0]){
             triggered[0] = true;
             
@@ -97,15 +100,7 @@ void ofApp::draw(){
                 }
             }
         }
-        
-//        if (triggered[0] == false){
-//            toggle[1] = toggle[2] = toggle[3] = false;
-//            triggered[1] = triggered[2] = triggered[3] = false;
-//
-//            triggered[0] = true;
-//        }
-        
-        
+                
         chromaticAbberation.begin();
         chromaticAbberation.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         chromaticAbberation.setUniformTexture( "tex0", fbo.getTexture(), 0);
@@ -125,14 +120,7 @@ void ofApp::draw(){
                 }
             }
         }
-        
-//        if (triggered[1] == false){
-//            toggle[0] = toggle[2] = toggle[3] = false;
-//            triggered[0] = triggered[2] = triggered[3] = false;
-//
-//            triggered[1] = true;
-//        }
-        
+                
         crash.begin();
         crash.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         crash.setUniformTexture( "tex0", fbo.getTexture(), 0 );
@@ -152,18 +140,30 @@ void ofApp::draw(){
             }
         }
         
-//        if (triggered[2] == false){
-//            toggle[0] = toggle[1] = toggle[3] = false;
-//            triggered[0] = triggered[1] = triggered[3] = false;
-//
-//            triggered[2] = true;
-//        }
-        
         wavy.begin();
         wavy.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         wavy.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         wavy.end();
+    }
+    
+    if (toggle[3]){
+        if (!triggered[3]){
+            triggered[3] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 3){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
+        
+        pixelated.begin();
+        pixelated.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
+        pixelated.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        fbo.draw(0, 0);
+        pixelated.end();
     }
     
     if ( std::none_of(toggle.begin(), toggle.end(), [](bool v) { return v; }) ) {

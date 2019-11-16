@@ -50,6 +50,7 @@ class ofApp : public ofBaseApp{
         ofFbo fbo;
         
         ofShader render;
+        ofShader twist;
         ofEasyCam camera;
     
         ofShader postProcessing;
@@ -57,6 +58,7 @@ class ofApp : public ofBaseApp{
         ofShader crash;
         ofShader chromaticAbberation;
         ofShader wavy;
+        ofShader pixelated;
     
     
         bool set = false;
