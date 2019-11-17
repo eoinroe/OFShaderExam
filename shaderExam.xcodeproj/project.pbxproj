@@ -72,6 +72,8 @@
 		6F389F55237F346B0043135F /* vague.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = vague.frag; path = bin/data/vague.frag; sourceTree = SOURCE_ROOT; };
 		6F389F56237F39480043135F /* chromatic.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = chromatic.frag; path = bin/data/chromatic.frag; sourceTree = SOURCE_ROOT; };
 		6F389F57237F88AD0043135F /* pixelated.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = pixelated.frag; path = bin/data/pixelated.frag; sourceTree = SOURCE_ROOT; };
+		6F389F5F238207090043135F /* post.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = post.vert; path = bin/data/post.vert; sourceTree = SOURCE_ROOT; };
+		6F389F60238209BA0043135F /* depth.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = depth.frag; path = bin/data/depth.frag; sourceTree = SOURCE_ROOT; };
 		78D67A00EB899FAC09430597 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxLabel.cpp; path = ../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		7920005E4069FBD68DF30F56 /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = config.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/config.h; sourceTree = SOURCE_ROOT; };
 		7B454555CF8F39CFBAAFDFA2 /* camera.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = camera.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/camera.h; sourceTree = SOURCE_ROOT; };
@@ -779,6 +781,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				6F389F53237F257C0043135F /* base.vert */,
 				6F389F54237F27230043135F /* base.frag */,
+				6F389F5F238207090043135F /* post.vert */,
+				6F389F60238209BA0043135F /* depth.frag */,
 				6F389F52237F257C0043135F /* crash.frag */,
 				6F389F55237F346B0043135F /* vague.frag */,
 				6F389F56237F39480043135F /* chromatic.frag */,

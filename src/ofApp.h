@@ -38,8 +38,13 @@ class ofApp : public ofBaseApp{
     
         vector<ofxButton> filters;
     
-        array<ofParameter<bool>, 4> toggle;
-        array<bool, 4> triggered = {false};
+        array<ofParameter<bool>, 5> toggle;
+        array<bool, 5> triggered = {false};
+    
+    
+        ofParameter<ofColor> color;
+        ofParameter<float> twistFactor;
+        ofParameter<float> size;
         
         ofxPanel gui;
             
@@ -59,6 +64,7 @@ class ofApp : public ofBaseApp{
         ofShader chromaticAbberation;
         ofShader wavy;
         ofShader pixelated;
+        ofShader depth;
     
     
         bool set = false;

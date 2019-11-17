@@ -29,7 +29,7 @@ void ofApp::setup(){
     //postProcessing.load("base.vert", "crash.frag");
     
     //could write a loop that sets up all the vertex shaders from file?
-    crash.setupShaderFromFile(GL_VERTEX_SHADER, "base.vert");
+    crash.setupShaderFromFile(GL_VERTEX_SHADER, "post.vert");
     crash.setupShaderFromFile(GL_FRAGMENT_SHADER, "crash.frag");
     
     crash.bindDefaults();
@@ -38,9 +38,10 @@ void ofApp::setup(){
     
     // Load all the shaders in setup for improved efficiency
     //crash.load("base.vert", "crash.frag");
-    chromaticAbberation.load("base.vert", "chromatic.frag");
-    wavy.load("base.vert", "vague.frag");
-    pixelated.load("base.vert", "pixelated.frag");
+    chromaticAbberation.load("post.vert", "chromatic.frag");
+    wavy.load("post.vert", "vague.frag");
+    pixelated.load("post.vert", "pixelated.frag");
+    depth.load("post.vert", "depth.frag");
     
     gui.setup();
        
@@ -49,6 +50,10 @@ void ofApp::setup(){
     gui.add(toggle[1].set("Crash", false));
     gui.add(toggle[2].set("Wavy", false));
     gui.add(toggle[3].set("Pixelated", false));
+    gui.add(toggle[4].set("Depth Texture", false));
+    gui.add(color.set("Background Color", ofColor(255)));
+    gui.add(twistFactor.set("Twist", 0, -1, 1));
+    gui.add(size.set("Chubby", 0, 0, 20));
 }
 
 //--------------------------------------------------------------
@@ -62,9 +67,11 @@ void ofApp::update(){
     // Seems like it is important to do this here - but not necessarily in setup!
     ofClear(0, 0, 0, 255);
     
-    ofBackground(255);
+    ofBackground(color);
     
     render.begin();
+    render.setUniform1f( "size", size);
+    render.setUniform1f( "twistFactor", twistFactor );
     render.setUniformTexture( "tex0", texture, 0 );
     
     ofPushMatrix();
@@ -164,6 +171,24 @@ void ofApp::draw(){
         pixelated.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         pixelated.end();
+    }
+    
+    if (toggle[4]){
+        if (!triggered[4]){
+            triggered[4] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 4){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
+        
+        depth.begin();
+        depth.setUniformTexture("tex0", fbo.getDepthTexture(), 1);
+        fbo.draw(0, 0);
+        depth.end();
     }
     
     if ( std::none_of(toggle.begin(), toggle.end(), [](bool v) { return v; }) ) {
