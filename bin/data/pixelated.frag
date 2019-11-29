@@ -11,7 +11,5 @@ void main() {
     vec2 uv = v_texcoord;
     
     uv = floor(uv * lod) / lod;
-    
-    vec3 color = texture(tex0, uv).rgb;
-    fragColor = vec4(color, 1.0);
+    fragColor = texture(tex0, uv);
 }

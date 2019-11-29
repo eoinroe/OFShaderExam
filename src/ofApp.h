@@ -38,9 +38,10 @@ class ofApp : public ofBaseApp{
     
         vector<ofxButton> filters;
     
-        array<ofParameter<bool>, 5> toggle;
-        array<bool, 5> triggered = {false};
+        array<ofParameter<bool>, 7> toggle;
+        array<bool, 7> triggered = {false};
     
+        ofParameter<bool> twist;
     
         ofParameter<ofColor> color;
         ofParameter<float> twistFactor;
@@ -55,7 +56,7 @@ class ofApp : public ofBaseApp{
         ofFbo fbo;
         
         ofShader render;
-        ofShader twist;
+        
         ofEasyCam camera;
     
         ofShader postProcessing;
@@ -65,8 +66,9 @@ class ofApp : public ofBaseApp{
         ofShader wavy;
         ofShader pixelated;
         ofShader depth;
+        ofShader gray;
+        ofShader overlayShader;
     
-    
-        bool set = false;
+        ofColor overlayColor;
     
 };

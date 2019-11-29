@@ -25,7 +25,9 @@ void main() {
     
     float rotationAngleY = position.y * twistFactor;
     vec4 pos = position * rotationAroundY(rotationAngleY);
-    vec4 worldSpacePos = modelMatrix * pos;
+    //vec4 worldSpacePos = modelMatrix * pos;
+    
+    vec4 worldSpacePos = pos * transpose(modelMatrix);
     
     // Inflate the model
     worldSpacePos.xyz += normal * size;

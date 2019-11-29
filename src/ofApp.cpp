@@ -5,6 +5,7 @@ void ofApp::setup(){
     ofDisableArbTex();
     
     ofFboSettings settings;
+    settings.internalformat = GL_RGB32F;
     settings.width = ofGetWidth();
     settings.height = ofGetHeight();
     settings.useDepth = true;
@@ -28,20 +29,14 @@ void ofApp::setup(){
     render.load("base");
     //postProcessing.load("base.vert", "crash.frag");
     
-    //could write a loop that sets up all the vertex shaders from file?
-    crash.setupShaderFromFile(GL_VERTEX_SHADER, "post.vert");
-    crash.setupShaderFromFile(GL_FRAGMENT_SHADER, "crash.frag");
-    
-    crash.bindDefaults();
-    crash.linkProgram();
-    
-    
     // Load all the shaders in setup for improved efficiency
-    //crash.load("base.vert", "crash.frag");
+    crash.load("base.vert", "crash.frag");
     chromaticAbberation.load("post.vert", "chromatic.frag");
     wavy.load("post.vert", "vague.frag");
     pixelated.load("post.vert", "pixelated.frag");
     depth.load("post.vert", "depth.frag");
+    gray.load("post.vert", "grayscale.frag");
+    overlayShader.load("post.vert", "overlay.frag");
     
     gui.setup();
        
@@ -51,13 +46,22 @@ void ofApp::setup(){
     gui.add(toggle[2].set("Wavy", false));
     gui.add(toggle[3].set("Pixelated", false));
     gui.add(toggle[4].set("Depth Texture", false));
-    gui.add(color.set("Background Color", ofColor(255)));
-    gui.add(twistFactor.set("Twist", 0, -1, 1));
+    gui.add(toggle[5].set("Grayscale", false));
+    gui.add(toggle[6].set("Overlay", false));
+    gui.add(color.set("Overlay Color", ofColor(255)));
+    gui.add(twist.set("Twist", false));
+    gui.add(twistFactor.set("Twist Factor", 0, -1, 1));
     gui.add(size.set("Chubby", 0, 0, 20));
+    
+    // Move camera forward a little so depth texture is visible
+    camera.setPosition(0, 0, 525);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    if (!twist)
+        twistFactor = 0.0f;
+    
     // Start fbo then begin the camera!
     fbo.begin();
     
@@ -67,7 +71,7 @@ void ofApp::update(){
     // Seems like it is important to do this here - but not necessarily in setup!
     ofClear(0, 0, 0, 255);
     
-    ofBackground(color);
+    ofBackground(255);
     
     render.begin();
     render.setUniform1f( "size", size);
@@ -186,9 +190,55 @@ void ofApp::draw(){
         }
         
         depth.begin();
-        depth.setUniformTexture("tex0", fbo.getDepthTexture(), 1);
+        depth.setUniformTexture( "tex0", fbo.getDepthTexture(), 1 );    // Make sure this is 1!
         fbo.draw(0, 0);
         depth.end();
+    }
+    
+    if (toggle[5]){
+        if (!triggered[5]){
+            triggered[5] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 5){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
+        
+        gray.begin();
+        gray.setUniformTexture( "tex0", fbo.getTexture(), 0);
+        fbo.draw(0, 0);
+        gray.end();
+    }
+    
+    // This is most effective when the phong shader is being used
+    if (toggle[6]){
+        if (!triggered[6]){
+            triggered[6] = true;
+            
+            for (int i = 0; i < toggle.size(); ++i){
+                if (i != 6){
+                    toggle[i] = false;
+                    triggered[i] = false;
+                }
+            }
+        }
+        
+        // Get current value of ofxColorSlider
+        overlayColor = color;
+
+        overlayShader.begin();
+        overlayShader.setUniformTexture( "tex0", fbo.getTexture(), 0);
+        overlayShader.setUniform3f( "tint", float(overlayColor.r) / 255.0f, float(overlayColor.g) / 255.0f, float(overlayColor.b) / 255.0f );
+        fbo.draw(0, 0);
+        overlayShader.end();
+        
+        
+        // Cast to a float and then divide by a float, rather than dividing
+        // first and then casting the result of the division to a float
+        cout << to_string(float(overlayColor.r) / 255.0f) << endl;
     }
     
     if ( std::none_of(toggle.begin(), toggle.end(), [](bool v) { return v; }) ) {
