@@ -32,9 +32,7 @@ class ofApp : public ofBaseApp{
         ofxAssimpModelLoader model;
         
         ofParameter<bool> wireframe;
-//        ofxButton chromatic;
-//        ofxButton crash;
-//        ofxButton wavy;
+        ofParameter<bool> light;
     
         vector<ofxButton> filters;
     
@@ -49,26 +47,9 @@ class ofApp : public ofBaseApp{
         
         ofxPanel gui;
             
-        // 2D Filters
-        //ofFbo filters;
-        
-        // 3D Effects
         ofFbo fbo;
-        
-        ofShader render;
-        
         ofEasyCam camera;
     
+        ofShader render;
         ofShader postProcessing;
-    
-        ofShader crash;
-        ofShader chromaticAbberation;
-        ofShader wavy;
-        ofShader pixelated;
-        ofShader depth;
-        ofShader gray;
-        ofShader overlayShader;
-    
-        ofColor overlayColor;
-    
 };

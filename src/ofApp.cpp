@@ -10,8 +10,7 @@ void ofApp::setup(){
     settings.height = ofGetHeight();
     settings.useDepth = true;
     settings.depthStencilAsTexture = true;
-    
-    //filters.allocate(settings);
+
     fbo.allocate(settings);
     
     fbo.begin();
@@ -19,28 +18,19 @@ void ofApp::setup(){
     ofClearAlpha();
     fbo.end();
     
-    // Tessellation has been applied in Blender to improve the appearance of the model
-    // when mesh deformation is applied in the vertex shader
+    // Tessellation has been applied in Blender to improve the appearance
+    // of the model when mesh deformation is applied in the vertex shader
     model.loadModel("pikachu.obj");
     mesh = model.getMesh(0);
     
     ofLoadImage(texture, "pikachu.png");
     
     render.load("base");
-    //postProcessing.load("base.vert", "crash.frag");
-    
-    // Load all the shaders in setup for improved efficiency
-    crash.load("base.vert", "crash.frag");
-    chromaticAbberation.load("post.vert", "chromatic.frag");
-    wavy.load("post.vert", "vague.frag");
-    pixelated.load("post.vert", "pixelated.frag");
-    depth.load("post.vert", "depth.frag");
-    gray.load("post.vert", "grayscale.frag");
-    overlayShader.load("post.vert", "overlay.frag");
     
     gui.setup();
        
     gui.add(wireframe.set("Wireframe Mode", false));
+    gui.add(light.set("Directional Light", false));
     gui.add(toggle[0].set("Chromatic Abberation", false));
     gui.add(toggle[1].set("Crash", false));
     gui.add(toggle[2].set("Wavy", false));
@@ -61,6 +51,12 @@ void ofApp::setup(){
 void ofApp::update(){
     if (!twist)
         twistFactor = 0.0f;
+    
+    if (light) {
+        render.load("light");
+    } else {
+        render.load("base");
+    }
     
     // Start fbo then begin the camera!
     fbo.begin();
@@ -111,12 +107,14 @@ void ofApp::draw(){
                 }
             }
         }
+      
+        postProcessing.load("base.vert", "chromatic.frag");
                 
-        chromaticAbberation.begin();
-        chromaticAbberation.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
-        chromaticAbberation.setUniformTexture( "tex0", fbo.getTexture(), 0);
+        postProcessing.begin();
+        postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
-        chromaticAbberation.end();
+        postProcessing.end();
         
     }
     
@@ -131,12 +129,14 @@ void ofApp::draw(){
                 }
             }
         }
+        
+        postProcessing.load("base.vert", "crash.frag");
                 
-        crash.begin();
-        crash.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
-        crash.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        postProcessing.begin();
+        postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
-        crash.end();
+        postProcessing.end();
     }
     
     if (toggle[2]){
@@ -151,11 +151,13 @@ void ofApp::draw(){
             }
         }
         
-        wavy.begin();
-        wavy.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
-        wavy.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        postProcessing.load("base.vert", "vague.frag");
+        
+        postProcessing.begin();
+        postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
-        wavy.end();
+        postProcessing.end();
     }
     
     if (toggle[3]){
@@ -170,11 +172,13 @@ void ofApp::draw(){
             }
         }
         
-        pixelated.begin();
-        pixelated.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
-        pixelated.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        postProcessing.load("base.vert", "pixelated.frag");
+        
+        postProcessing.begin();
+        postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
-        pixelated.end();
+        postProcessing.end();
     }
     
     if (toggle[4]){
@@ -189,10 +193,12 @@ void ofApp::draw(){
             }
         }
         
-        depth.begin();
-        depth.setUniformTexture( "tex0", fbo.getDepthTexture(), 1 );    // Make sure this is 1!
+        postProcessing.load("base.vert", "depth.frag");
+        
+        postProcessing.begin();
+        postProcessing.setUniformTexture( "tex0", fbo.getDepthTexture(), 1 );    // Make sure this is 1!
         fbo.draw(0, 0);
-        depth.end();
+        postProcessing.end();
     }
     
     if (toggle[5]){
@@ -207,10 +213,12 @@ void ofApp::draw(){
             }
         }
         
-        gray.begin();
-        gray.setUniformTexture( "tex0", fbo.getTexture(), 0);
+        postProcessing.load("base.vert", "grayscale.frag");
+        
+        postProcessing.begin();
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
-        gray.end();
+        postProcessing.end();
     }
     
     // This is most effective when the phong shader is being used
@@ -226,19 +234,13 @@ void ofApp::draw(){
             }
         }
         
-        // Get current value of ofxColorSlider
-        overlayColor = color;
-
-        overlayShader.begin();
-        overlayShader.setUniformTexture( "tex0", fbo.getTexture(), 0);
-        overlayShader.setUniform3f( "tint", float(overlayColor.r) / 255.0f, float(overlayColor.g) / 255.0f, float(overlayColor.b) / 255.0f );
+        postProcessing.load("base.vert", "overlay.frag");
+        
+        postProcessing.begin();
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        postProcessing.setUniform3f( "tint", float(color->r) / 255.0f, float(color->g) / 255.0f, float(color->b) / 255.0f );
         fbo.draw(0, 0);
-        overlayShader.end();
-        
-        
-        // Cast to a float and then divide by a float, rather than dividing
-        // first and then casting the result of the division to a float
-        cout << to_string(float(overlayColor.r) / 255.0f) << endl;
+        postProcessing.end();
     }
     
     if ( std::none_of(toggle.begin(), toggle.end(), [](bool v) { return v; }) ) {

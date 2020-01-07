@@ -12,6 +12,7 @@ uniform float twistFactor;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
+uniform mat4 modelViewProjectionMatrix;
 
 mat4 rotationAroundY(float angle) {
     return mat4(cos(angle), 0.0, -sin(angle), 0.0,
@@ -25,8 +26,8 @@ void main() {
     
     float rotationAngleY = position.y * twistFactor;
     vec4 pos = position * rotationAroundY(rotationAngleY);
-    //vec4 worldSpacePos = modelMatrix * pos;
     
+    // Use transpose for row major matrices
     vec4 worldSpacePos = pos * transpose(modelMatrix);
     
     // Inflate the model
