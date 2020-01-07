@@ -41,7 +41,7 @@ class ofApp : public ofBaseApp{
     
         ofParameter<bool> twist;
     
-        ofParameter<ofColor> color;
+        ofParameter<ofColor> overlayColor, lightColor;
         ofParameter<float> twistFactor;
         ofParameter<float> size;
         

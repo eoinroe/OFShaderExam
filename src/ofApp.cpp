@@ -31,6 +31,7 @@ void ofApp::setup(){
        
     gui.add(wireframe.set("Wireframe Mode", false));
     gui.add(light.set("Directional Light", false));
+    gui.add(lightColor.set("Light Color", ofColor(255)));
     gui.add(toggle[0].set("Chromatic Abberation", false));
     gui.add(toggle[1].set("Crash", false));
     gui.add(toggle[2].set("Wavy", false));
@@ -38,7 +39,7 @@ void ofApp::setup(){
     gui.add(toggle[4].set("Depth Texture", false));
     gui.add(toggle[5].set("Grayscale", false));
     gui.add(toggle[6].set("Overlay", false));
-    gui.add(color.set("Overlay Color", ofColor(255)));
+    gui.add(overlayColor.set("Overlay Color", ofColor(255)));
     gui.add(twist.set("Twist", false));
     gui.add(twistFactor.set("Twist Factor", 0, -1, 1));
     gui.add(size.set("Chubby", 0, 0, 20));
@@ -52,6 +53,7 @@ void ofApp::update(){
     if (!twist)
         twistFactor = 0.0f;
     
+    // Find a way to only load the shaders only if the boolean has changed?
     if (light) {
         render.load("light");
     } else {
@@ -74,6 +76,9 @@ void ofApp::update(){
     render.setUniform1f( "twistFactor", twistFactor );
     render.setUniformTexture( "tex0", texture, 0 );
     
+    if (light)
+        render.setUniform3f( "lightColor", float(lightColor->r) / 255.0f, float(lightColor->g) / 255.0f, float(lightColor->b) / 255.0f );
+    
     ofPushMatrix();
     ofScale(50);
     ofTranslate(-0.4, -6);
@@ -81,6 +86,7 @@ void ofApp::update(){
     if (!wireframe) {
         mesh.draw();
     } else {
+        // You can see how much tessellation has been applied to the model in wireframe mode
         mesh.drawWireframe();
     }
     
@@ -238,7 +244,7 @@ void ofApp::draw(){
         
         postProcessing.begin();
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
-        postProcessing.setUniform3f( "tint", float(color->r) / 255.0f, float(color->g) / 255.0f, float(color->b) / 255.0f );
+        postProcessing.setUniform3f( "tint", float(overlayColor->r) / 255.0f, float(overlayColor->g) / 255.0f, float(overlayColor->b) / 255.0f );
         fbo.draw(0, 0);
         postProcessing.end();
     }
@@ -248,7 +254,6 @@ void ofApp::draw(){
     }
 
     gui.draw();
-
 }
 
 //--------------------------------------------------------------
