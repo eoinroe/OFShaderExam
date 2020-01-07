@@ -13,14 +13,3 @@ void main() {
 
     fragColor = vec4(vec3(grayscale), 1.0);
 }
-
-//void main() {
-//    pixOut[i] = lastVals[i % 3] + blur * (pixIn[i] - lastVals[i % 3]);
-//    lastVals[i % 3] = pixOut[i];
-//    
-//    vec3 color = texture(tex0, v_texcoord).rgb;
-//    vec3 previous = texture(tex0, v_texcoord).rgb;
-//    
-//    color += 0.5 *
-//    
-//}

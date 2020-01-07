@@ -53,7 +53,7 @@ void ofApp::update(){
     if (!twist)
         twistFactor = 0.0f;
     
-    // Find a way to only load the shaders only if the boolean has changed?
+    // Find a way to load the shaders only if the boolean has changed?
     if (light) {
         render.load("light");
     } else {
