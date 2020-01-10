@@ -100,22 +100,23 @@ void ofApp::draw(){
         if (!triggered[0]){
             triggered[0] = true;
             
+            // Set all other toggles to false
             for (int i = 0; i < toggle.size(); ++i){
                 if (i != 0){
                     toggle[i] = false;
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Chromatic abberation" << endl;
+            postProcessing.load("base.vert", "chromatic.frag");
         }
       
-        postProcessing.load("base.vert", "chromatic.frag");
-                
         postProcessing.begin();
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         postProcessing.end();
-        
     }
     
     if (toggle[1]){
@@ -128,9 +129,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Crash" << endl;
+            postProcessing.load("base.vert", "crash.frag");
         }
-        
-        postProcessing.load("base.vert", "crash.frag");
                 
         postProcessing.begin();
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
@@ -149,9 +151,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Wavy" << endl;
+            postProcessing.load("base.vert", "vague.frag");
         }
-        
-        postProcessing.load("base.vert", "vague.frag");
         
         postProcessing.begin();
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
@@ -170,9 +173,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Pixelated" << endl;
+            postProcessing.load("base.vert", "pixelated.frag");
         }
-        
-        postProcessing.load("base.vert", "pixelated.frag");
         
         postProcessing.begin();
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
@@ -191,9 +195,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Depth texture" << endl;
+            postProcessing.load("base.vert", "depth.frag");
         }
-        
-        postProcessing.load("base.vert", "depth.frag");
         
         postProcessing.begin();
         postProcessing.setUniformTexture( "tex0", fbo.getDepthTexture(), 1 );    // Make sure this is 1!
@@ -211,9 +216,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Grayscale" << endl;
+            postProcessing.load("base.vert", "grayscale.frag");
         }
-        
-        postProcessing.load("base.vert", "grayscale.frag");
         
         postProcessing.begin();
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
@@ -232,9 +238,10 @@ void ofApp::draw(){
                     triggered[i] = false;
                 }
             }
+            
+            cout << "Overlay" << endl;
+            postProcessing.load("base.vert", "overlay.frag");
         }
-        
-        postProcessing.load("base.vert", "overlay.frag");
         
         postProcessing.begin();
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );

@@ -37,7 +37,7 @@ class ofApp : public ofBaseApp{
         vector<ofxButton> filters;
     
         array<ofParameter<bool>, 7> toggle;
-        array<bool, 7> triggered = {false};
+        array<bool, 7> triggered = { false };
     
         ofParameter<bool> twist;
     

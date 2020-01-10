@@ -7,7 +7,7 @@ uniform vec2 u_resolution;
 uniform sampler2D tex0;
 
 void main() {
-    float scale = 0.005;
+    float scale = 0.0025;
     float a = 0.0;
     
     vec2 uv = v_texcoord;
