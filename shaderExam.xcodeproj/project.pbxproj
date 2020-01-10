@@ -76,8 +76,6 @@
 		6F389F5F238207090043135F /* post.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = post.vert; path = bin/data/post.vert; sourceTree = SOURCE_ROOT; };
 		6F389F60238209BA0043135F /* depth.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = depth.frag; path = bin/data/depth.frag; sourceTree = SOURCE_ROOT; };
 		6F57E08523919783009CF48D /* overlay.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = overlay.frag; path = bin/data/overlay.frag; sourceTree = SOURCE_ROOT; };
-		6F75FEEF23C51B5800F632BA /* light.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = light.frag; path = bin/data/light.frag; sourceTree = SOURCE_ROOT; };
-		6F75FEF023C51B5800F632BA /* light.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = light.vert; path = bin/data/light.vert; sourceTree = SOURCE_ROOT; };
 		78D67A00EB899FAC09430597 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxLabel.cpp; path = ../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		7920005E4069FBD68DF30F56 /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = config.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/config.h; sourceTree = SOURCE_ROOT; };
 		7B454555CF8F39CFBAAFDFA2 /* camera.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = camera.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/camera.h; sourceTree = SOURCE_ROOT; };
@@ -793,8 +791,6 @@
 				6F389F57237F88AD0043135F /* pixelated.frag */,
 				6F1A83E52383147F0012E7C8 /* grayscale.frag */,
 				6F57E08523919783009CF48D /* overlay.frag */,
-				6F75FEF023C51B5800F632BA /* light.vert */,
-				6F75FEEF23C51B5800F632BA /* light.frag */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

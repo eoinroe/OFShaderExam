@@ -5,6 +5,7 @@ in vec3 normal;
 in vec2 texcoord;
 
 out vec2 v_texcoord;
+out vec3 v_normal;
 
 uniform float size;
 uniform float twistFactor;
@@ -27,10 +28,11 @@ void main() {
     float rotationAngleY = position.y * twistFactor;
     vec4 pos = position * rotationAroundY(rotationAngleY);
     
-    // Use transpose for row major matrices
-    vec4 worldSpacePos = pos * transpose(modelMatrix);
+    // In this app shading from the sun does not depend on where the camera is since we are using a directional light
+    v_normal = (modelViewProjectionMatrix * vec4(normal, 0.0)).xyz;
     
     // Inflate the model
+    vec4 worldSpacePos = modelMatrix * pos;
     worldSpacePos.xyz += normal * size;
     
     gl_Position = projectionMatrix * viewMatrix * worldSpacePos;

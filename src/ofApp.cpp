@@ -53,13 +53,6 @@ void ofApp::update(){
     if (!twist)
         twistFactor = 0.0f;
     
-    // Find a way to load the shaders only if the boolean has changed?
-    if (light) {
-        render.load("light");
-    } else {
-        render.load("base");
-    }
-    
     // Start fbo then begin the camera!
     fbo.begin();
     
@@ -74,6 +67,7 @@ void ofApp::update(){
     render.begin();
     render.setUniform1f( "size", size);
     render.setUniform1f( "twistFactor", twistFactor );
+    render.setUniform1i( "lightingEnabled", light );
     render.setUniformTexture( "tex0", texture, 0 );
     
     if (light)
