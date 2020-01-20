@@ -9,6 +9,7 @@ out vec3 v_normal;
 
 uniform float size;
 uniform float twistFactor;
+uniform float waviness;
 
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
@@ -35,5 +36,8 @@ void main() {
     vec4 worldSpacePos = modelMatrix * pos;
     worldSpacePos.xyz += normal * size;
     
+    // Waviness
+    worldSpacePos.x += sin(worldSpacePos.y / 50.0f) * waviness;
+        
     gl_Position = projectionMatrix * viewMatrix * worldSpacePos;
 }

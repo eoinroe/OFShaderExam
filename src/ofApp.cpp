@@ -32,6 +32,7 @@ void ofApp::setup(){
     gui.add(wireframe.set("Wireframe Mode", false));
     gui.add(light.set("Directional Light", false));
     gui.add(lightColor.set("Light Color", ofColor(255)));
+    gui.add(labels[0].set("Post Processing", ""));
     gui.add(toggle[0].set("Chromatic Abberation", false));
     gui.add(toggle[1].set("Crash", false));
     gui.add(toggle[2].set("Wavy", false));
@@ -40,9 +41,10 @@ void ofApp::setup(){
     gui.add(toggle[5].set("Grayscale", false));
     gui.add(toggle[6].set("Overlay", false));
     gui.add(overlayColor.set("Overlay Color", ofColor(255)));
-    gui.add(twist.set("Twist", false));
+    gui.add(labels[1].set("Vertex Animation", ""));
     gui.add(twistFactor.set("Twist Factor", 0, -1, 1));
     gui.add(size.set("Chubby", 0, 0, 20));
+    gui.add(waviness.set("Waviness", 0, 0, 75));
     
     // Move camera forward a little so depth texture is visible
     camera.setPosition(0, 0, 525);
@@ -50,9 +52,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if (!twist)
-        twistFactor = 0.0f;
-    
     // Start fbo then begin the camera!
     fbo.begin();
     
@@ -66,6 +65,7 @@ void ofApp::update(){
     
     render.begin();
     render.setUniform1f( "size", size);
+    render.setUniform1f( "waviness", waviness );
     render.setUniform1f( "twistFactor", twistFactor );
     render.setUniform1i( "lightingEnabled", light );
     render.setUniformTexture( "tex0", texture, 0 );
@@ -109,7 +109,7 @@ void ofApp::draw(){
             }
             
             cout << "Chromatic abberation" << endl;
-            postProcessing.load("base.vert", "chromatic.frag");
+            postProcessing.load("post.vert", "chromatic.frag");
         }
       
         postProcessing.begin();
@@ -131,7 +131,7 @@ void ofApp::draw(){
             }
             
             cout << "Crash" << endl;
-            postProcessing.load("base.vert", "crash.frag");
+            postProcessing.load("post.vert", "crash.frag");
         }
                 
         postProcessing.begin();
@@ -153,7 +153,7 @@ void ofApp::draw(){
             }
             
             cout << "Wavy" << endl;
-            postProcessing.load("base.vert", "vague.frag");
+            postProcessing.load("post.vert", "vague.frag");
         }
         
         postProcessing.begin();
@@ -175,7 +175,7 @@ void ofApp::draw(){
             }
             
             cout << "Pixelated" << endl;
-            postProcessing.load("base.vert", "pixelated.frag");
+            postProcessing.load("post.vert", "pixelated.frag");
         }
         
         postProcessing.begin();
@@ -197,7 +197,7 @@ void ofApp::draw(){
             }
             
             cout << "Depth texture" << endl;
-            postProcessing.load("base.vert", "depth.frag");
+            postProcessing.load("post.vert", "depth.frag");
         }
         
         postProcessing.begin();
@@ -218,7 +218,7 @@ void ofApp::draw(){
             }
             
             cout << "Grayscale" << endl;
-            postProcessing.load("base.vert", "grayscale.frag");
+            postProcessing.load("post.vert", "grayscale.frag");
         }
         
         postProcessing.begin();
@@ -240,7 +240,7 @@ void ofApp::draw(){
             }
             
             cout << "Overlay" << endl;
-            postProcessing.load("base.vert", "overlay.frag");
+            postProcessing.load("post.vert", "overlay.frag");
         }
         
         postProcessing.begin();

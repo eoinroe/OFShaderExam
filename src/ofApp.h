@@ -39,11 +39,12 @@ class ofApp : public ofBaseApp{
         array<ofParameter<bool>, 7> toggle;
         array<bool, 7> triggered = { false };
     
-        ofParameter<bool> twist;
-    
         ofParameter<ofColor> overlayColor, lightColor;
         ofParameter<float> twistFactor;
         ofParameter<float> size;
+        ofParameter<float> waviness;
+    
+        array<ofParameter<string>, 2> labels;
         
         ofxPanel gui;
             
