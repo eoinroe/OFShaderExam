@@ -33,11 +33,15 @@ class ofApp : public ofBaseApp{
         
         ofParameter<bool> wireframe;
         ofParameter<bool> light;
+        ofParameter<bool> depth;
+    
     
         vector<ofxButton> filters;
     
         array<ofParameter<bool>, 7> toggle;
         array<bool, 7> triggered = { false };
+    
+        array<ofParameter<float>, 7> sliders;
     
         ofParameter<ofColor> overlayColor, lightColor;
         ofParameter<float> twistFactor;
@@ -45,6 +49,8 @@ class ofApp : public ofBaseApp{
         ofParameter<float> waviness;
     
         array<ofParameter<string>, 2> labels;
+    
+        array<ofParameterGroup, 3> parameters;
         
         ofxPanel gui;
             

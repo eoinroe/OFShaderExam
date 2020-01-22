@@ -3,11 +3,12 @@
 in vec2 v_texcoord;
 out vec4 fragColor;
 
+uniform float scale;
 uniform vec2 u_resolution;
 uniform sampler2D tex0;
 
 void main() {
-    float scale = 0.0025;
+    //float scale = 0.0025;
     float a = 0.0;
     
     vec2 uv = v_texcoord;

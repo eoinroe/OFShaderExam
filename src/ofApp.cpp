@@ -27,24 +27,28 @@ void ofApp::setup(){
     
     render.load("base");
     
-    gui.setup();
-       
-    gui.add(wireframe.set("Wireframe Mode", false));
-    gui.add(light.set("Directional Light", false));
-    gui.add(lightColor.set("Light Color", ofColor(255)));
-    gui.add(labels[0].set("Post Processing", ""));
-    gui.add(toggle[0].set("Chromatic Abberation", false));
-    gui.add(toggle[1].set("Crash", false));
-    gui.add(toggle[2].set("Wavy", false));
-    gui.add(toggle[3].set("Pixelated", false));
-    gui.add(toggle[4].set("Depth Texture", false));
-    gui.add(toggle[5].set("Grayscale", false));
-    gui.add(toggle[6].set("Overlay", false));
-    gui.add(overlayColor.set("Overlay Color", ofColor(255)));
-    gui.add(labels[1].set("Vertex Animation", ""));
-    gui.add(twistFactor.set("Twist Factor", 0, -1, 1));
-    gui.add(size.set("Chubby", 0, 0, 20));
-    gui.add(waviness.set("Waviness", 0, 0, 75));
+    parameters[0].setName("Settings");
+    parameters[0].add(wireframe.set("Wireframe Mode", false));
+    parameters[0].add(light.set("Directional Light", false));
+    parameters[0].add(lightColor.set("Light Color", ofColor(255)));
+    
+    parameters[1].setName("Post Processing");
+    parameters[1].add(depth.set("Depth Texture", false));
+    parameters[1].add(sliders[0].set("Chromatic Abberration", 0.0f, 0.0f, 0.01f));
+    parameters[1].add(sliders[1].set("Crash", 0.0f, 0.0f, 0.1f));
+    parameters[1].add(sliders[2].set("Wavy", 0.0f, 0.0f, 0.1f));
+    parameters[1].add(sliders[3].set("Pixelated", 0.0f, 0.0f, 20.0f));
+    parameters[1].add(sliders[4].set("Threshold", 0.0f, 0.0f, 1.0f));
+    
+    parameters[2].setName("Vertex Animation");
+    parameters[2].add(twistFactor.set("Twist Factor", 0, -1, 1));
+    parameters[2].add(size.set("Chubby", 0, 0, 20));
+    parameters[2].add(waviness.set("Waviness", 0, 0, 75));
+    
+    parameters[0].add(parameters[1]);
+    parameters[0].add(parameters[2]);
+    
+    gui.setup(parameters[0]);
     
     // Move camera forward a little so depth texture is visible
     camera.setPosition(0, 0, 525);
@@ -96,14 +100,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    if (toggle[0]){
+    if (sliders[0] > 0.0f){
         if (!triggered[0]){
             triggered[0] = true;
             
             // Set all other toggles to false
-            for (int i = 0; i < toggle.size(); ++i){
+            for (int i = 0; i < sliders.size(); ++i){
                 if (i != 0){
-                    toggle[i] = false;
+                    sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -111,21 +115,22 @@ void ofApp::draw(){
             cout << "Chromatic abberation" << endl;
             postProcessing.load("post.vert", "chromatic.frag");
         }
-      
+        
         postProcessing.begin();
+        postProcessing.setUniform1f( "scale", sliders[0].get() );
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         postProcessing.end();
     }
     
-    if (toggle[1]){
+    if (sliders[1] > 0.0f){
         if (!triggered[1]){
             triggered[1] = true;
             
-            for (int i = 0; i < toggle.size(); ++i){
+            for (int i = 0; i < sliders.size(); ++i){
                 if (i != 1){
-                    toggle[i] = false;
+                    sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -135,19 +140,21 @@ void ofApp::draw(){
         }
                 
         postProcessing.begin();
+        postProcessing.setUniform1f( "level", sliders[1].get() );
+        postProcessing.setUniform2f( "lod", vec2(ofGetWidth(), ofGetHeight()) * sliders[1].get() );
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         postProcessing.end();
     }
     
-    if (toggle[2]){
+    if (sliders[2] > 0.0f){
         if (!triggered[2]){
             triggered[2] = true;
             
-            for (int i = 0; i < toggle.size(); ++i){
+            for (int i = 0; i < sliders.size(); ++i){
                 if (i != 2){
-                    toggle[i] = false;
+                    sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -157,19 +164,20 @@ void ofApp::draw(){
         }
         
         postProcessing.begin();
+        postProcessing.setUniform1f( "level", sliders[2].get() );
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         postProcessing.end();
     }
     
-    if (toggle[3]){
+    if (sliders[3] > 0.0f){
         if (!triggered[3]){
             triggered[3] = true;
             
-            for (int i = 0; i < toggle.size(); ++i){
+            for (int i = 0; i < sliders.size(); ++i){
                 if (i != 3){
-                    toggle[i] = false;
+                    sliders[i] = false;
                     triggered[i] = false;
                 }
             }
@@ -179,19 +187,42 @@ void ofApp::draw(){
         }
         
         postProcessing.begin();
+        postProcessing.setUniform1f( "level", sliders[3].get() );
         postProcessing.setUniform2f( "u_resolution", vec2(ofGetWidth(), ofGetHeight()) );
         postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
         fbo.draw(0, 0);
         postProcessing.end();
     }
     
-    if (toggle[4]){
+    if (sliders[4] > 0.0f){
         if (!triggered[4]){
             triggered[4] = true;
             
-            for (int i = 0; i < toggle.size(); ++i){
+            for (int i = 0; i < sliders.size(); ++i){
                 if (i != 4){
-                    toggle[i] = false;
+                    sliders[i] = 0.0f;
+                    triggered[i] = false;
+                }
+            }
+            
+            cout << "Threshold" << endl;
+            postProcessing.load("post.vert", "grayscale.frag");
+        }
+        
+        postProcessing.begin();
+        postProcessing.setUniform1f( "threshold", sliders[4].get() );
+        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+        fbo.draw(0, 0);
+        postProcessing.end();
+    }
+    
+    if (depth){
+        if (!triggered[5]){
+            triggered[5] = true;
+            
+            for (int i = 0; i < sliders.size(); ++i){
+                if (i != 5){
+                    sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -206,54 +237,10 @@ void ofApp::draw(){
         postProcessing.end();
     }
     
-    if (toggle[5]){
-        if (!triggered[5]){
-            triggered[5] = true;
-            
-            for (int i = 0; i < toggle.size(); ++i){
-                if (i != 5){
-                    toggle[i] = false;
-                    triggered[i] = false;
-                }
-            }
-            
-            cout << "Grayscale" << endl;
-            postProcessing.load("post.vert", "grayscale.frag");
-        }
-        
-        postProcessing.begin();
-        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
+    if ( std::none_of(sliders.begin(), sliders.end(), [](float v) { return v > 0.0f; }) && !depth ) {
         fbo.draw(0, 0);
-        postProcessing.end();
     }
     
-    // This is most effective when the phong shader is being used
-    if (toggle[6]){
-        if (!triggered[6]){
-            triggered[6] = true;
-            
-            for (int i = 0; i < toggle.size(); ++i){
-                if (i != 6){
-                    toggle[i] = false;
-                    triggered[i] = false;
-                }
-            }
-            
-            cout << "Overlay" << endl;
-            postProcessing.load("post.vert", "overlay.frag");
-        }
-        
-        postProcessing.begin();
-        postProcessing.setUniformTexture( "tex0", fbo.getTexture(), 0 );
-        postProcessing.setUniform3f( "tint", float(overlayColor->r) / 255.0f, float(overlayColor->g) / 255.0f, float(overlayColor->b) / 255.0f );
-        fbo.draw(0, 0);
-        postProcessing.end();
-    }
-    
-    if ( std::none_of(toggle.begin(), toggle.end(), [](bool v) { return v; }) ) {
-        fbo.draw(0, 0);
-    }
-
     gui.draw();
 }
 
