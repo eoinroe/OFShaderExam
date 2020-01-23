@@ -12,6 +12,8 @@
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		483FA4F6D5FA6422C559B1F5 /* ofxAssimpMeshHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F67FE68E327BEFBD4B777571 /* ofxAssimpMeshHelper.cpp */; };
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
+		6F40167F23D9B64F00580498 /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F40167D23D9B64F00580498 /* render.cpp */; };
+		6FEDA0F923D897CA00E13BEC /* postProcessing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FEDA0F723D897CA00E13BEC /* postProcessing.cpp */; };
 		837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F2C6477A769C03A56D1401 /* ofxSlider.cpp */; };
 		852E0891794923EE7583C621 /* ofxInputField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44B351490B620D04E1E7C52D /* ofxInputField.cpp */; };
 		853E0BA2F448076739446874 /* ofxColorPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181D363B6DD54D1FA6309C43 /* ofxColorPicker.cpp */; };
@@ -75,7 +77,10 @@
 		6F389F57237F88AD0043135F /* pixelated.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = pixelated.frag; path = bin/data/pixelated.frag; sourceTree = SOURCE_ROOT; };
 		6F389F5F238207090043135F /* post.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = post.vert; path = bin/data/post.vert; sourceTree = SOURCE_ROOT; };
 		6F389F60238209BA0043135F /* depth.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = depth.frag; path = bin/data/depth.frag; sourceTree = SOURCE_ROOT; };
-		6F57E08523919783009CF48D /* overlay.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = overlay.frag; path = bin/data/overlay.frag; sourceTree = SOURCE_ROOT; };
+		6F40167D23D9B64F00580498 /* render.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
+		6F40167E23D9B64F00580498 /* render.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = render.hpp; sourceTree = "<group>"; };
+		6FEDA0F723D897CA00E13BEC /* postProcessing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = postProcessing.cpp; sourceTree = "<group>"; };
+		6FEDA0F823D897CA00E13BEC /* postProcessing.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = postProcessing.hpp; sourceTree = "<group>"; };
 		78D67A00EB899FAC09430597 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxLabel.cpp; path = ../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		7920005E4069FBD68DF30F56 /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = config.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/config.h; sourceTree = SOURCE_ROOT; };
 		7B454555CF8F39CFBAAFDFA2 /* camera.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = camera.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/camera.h; sourceTree = SOURCE_ROOT; };
@@ -781,6 +786,10 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				6F40167D23D9B64F00580498 /* render.cpp */,
+				6F40167E23D9B64F00580498 /* render.hpp */,
+				6FEDA0F723D897CA00E13BEC /* postProcessing.cpp */,
+				6FEDA0F823D897CA00E13BEC /* postProcessing.hpp */,
 				6F389F53237F257C0043135F /* base.vert */,
 				6F389F54237F27230043135F /* base.frag */,
 				6F389F5F238207090043135F /* post.vert */,
@@ -790,7 +799,6 @@
 				6F389F56237F39480043135F /* chromatic.frag */,
 				6F389F57237F88AD0043135F /* pixelated.frag */,
 				6F1A83E52383147F0012E7C8 /* grayscale.frag */,
-				6F57E08523919783009CF48D /* overlay.frag */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -910,12 +918,14 @@
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				853E0BA2F448076739446874 /* ofxColorPicker.cpp in Sources */,
+				6F40167F23D9B64F00580498 /* render.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				852E0891794923EE7583C621 /* ofxInputField.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
+				6FEDA0F923D897CA00E13BEC /* postProcessing.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -2,9 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "ofxAssimpModelLoader.h"
-#include <array>
-#include <vector>
+#include "render.hpp"
+#include "postProcessing.hpp"
 
 using namespace glm;
 
@@ -26,37 +25,12 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
-        ofMesh mesh;
-        ofTexture texture;
-        ofxAssimpModelLoader model;
-        
-        ofParameter<bool> wireframe;
-        ofParameter<bool> light;
-        ofParameter<bool> depth;
-    
-    
-        vector<ofxButton> filters;
-    
-        array<ofParameter<bool>, 7> toggle;
-        array<bool, 7> triggered = { false };
-    
-        array<ofParameter<float>, 7> sliders;
-    
-        ofParameter<ofColor> overlayColor, lightColor;
-        ofParameter<float> twistFactor;
-        ofParameter<float> size;
-        ofParameter<float> waviness;
-    
-        array<ofParameter<string>, 2> labels;
-    
-        array<ofParameterGroup, 3> parameters;
-        
-        ofxPanel gui;
-            
+
+    private:
         ofFbo fbo;
-        ofEasyCam camera;
-    
-        ofShader render;
-        ofShader postProcessing;
+        ofxPanel gui;
+        ofParameterGroup parameters;
+
+        Render render;
+        PostProcessing postProcessing;
 };
