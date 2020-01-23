@@ -17,6 +17,7 @@ class Render
 public:
     Render();
     void draw();
+    void update();
     array<ofParameterGroup, 3> parameters;
 private:
     ofShader shader;
@@ -32,6 +33,7 @@ private:
     ofParameter<ofColor> lightColor;
     
     array<ofParameter<float>, 3> sliders;
+    array<bool, 3> triggered = {false};
 };
 
 #endif /* render_hpp */

@@ -7,6 +7,7 @@
 
 #include "render.hpp"
 
+//--------------------------------------------------------------
 Render::Render()
 {
     parameters[0].setName("Tessellation");
@@ -36,6 +37,53 @@ Render::Render()
     camera.setPosition(0, 0, 525);
 }
 
+//--------------------------------------------------------------
+void Render::update()
+{
+    if (sliders[0] > 0.0f){
+        if (!triggered[0]){
+            triggered[0] = true;
+            
+            // Set all other sliders to 0
+            for (int i = 0; i < sliders.size(); ++i){
+                if (i != 0){
+                    sliders[i] = 0.0f;
+                    triggered[i] = false;
+                }
+            }
+        }
+    }
+    
+    if (sliders[1] > 0.0f){
+        if (!triggered[1]){
+            triggered[1] = true;
+            
+            // Set all other sliders to 0
+            for (int i = 0; i < sliders.size(); ++i){
+                if (i != 1){
+                    sliders[i] = 0.0f;
+                    triggered[i] = false;
+                }
+            }
+        }
+    }
+    
+    if (sliders[2] > 0.0f){
+        if (!triggered[2]){
+            triggered[2] = true;
+            
+            // Set all other sliders to 0
+            for (int i = 0; i < sliders.size(); ++i){
+                if (i != 2){
+                    sliders[i] = 0.0f;
+                    triggered[i] = false;
+                }
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------
 void Render::draw()
 {
     ofEnableDepthTest();

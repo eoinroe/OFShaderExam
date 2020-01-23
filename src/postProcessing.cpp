@@ -7,6 +7,7 @@
 
 #include "postProcessing.hpp"
 
+//--------------------------------------------------------------
 PostProcessing::PostProcessing()
 {
     parameters.setName("Post Processing");
@@ -18,13 +19,14 @@ PostProcessing::PostProcessing()
     parameters.add(sliders[4].set("Threshold", 0.0f, 0.0f, 1.0f));
 }
 
+//--------------------------------------------------------------
 void PostProcessing::draw(const ofFbo &fbo)
 {
     if (sliders[0] > 0.0f){
         if (!triggered[0]){
             triggered[0] = true;
             
-            // Set all other toggles to false
+            // Set all other sliders to 0
             for (int i = 0; i < sliders.size(); ++i){
                 if (i != 0){
                     sliders[i] = 0.0f;
@@ -129,7 +131,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             shader.load("post.vert", "grayscale.frag");
         }
         
-        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.25f, 0.75f);
+        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.5f, 0.75f);
         
         shader.begin();
         shader.setUniform1f( "threshold", threshold );

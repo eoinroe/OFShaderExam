@@ -16,7 +16,9 @@ void ofApp::setup(){
     
     fbo.begin();
     ofClear(0, 0, 0);
-    ofClearAlpha();
+    
+    // No need to clear the alpha channel since I'm using the GL_RGB32F format
+    // ofClearAlpha();
     fbo.end();    
     
     parameters.setName("Settings");
@@ -36,19 +38,19 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    // Start fbo then begin the camera!
-    fbo.begin();
-    
-    // Seems like it is important to do this here - but not necessarily in setup!
-    ofClear(0, 0, 0, 255);
-    
-    render.draw();
-    
-    fbo.end();
+    render.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    fbo.begin();
+    
+    // Seems like it is important to do this here - but not necessarily in setup!
+    ofClear(0, 0, 0);
+    
+    render.draw();
+    fbo.end();
+    
     postProcessing.draw(fbo);
     gui.draw();
 }
