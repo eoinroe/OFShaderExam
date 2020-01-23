@@ -68,7 +68,6 @@
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
 		6A0E743407465957DB764ED3 /* mesh.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = mesh.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/mesh.h; sourceTree = SOURCE_ROOT; };
 		6E069CE4C58E970E3429DBE5 /* Importer.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Importer.hpp; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/Importer.hpp; sourceTree = SOURCE_ROOT; };
-		6F1A83E52383147F0012E7C8 /* grayscale.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = grayscale.frag; path = bin/data/grayscale.frag; sourceTree = SOURCE_ROOT; };
 		6F389F52237F257C0043135F /* crash.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = crash.frag; path = bin/data/crash.frag; sourceTree = SOURCE_ROOT; };
 		6F389F53237F257C0043135F /* base.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = base.vert; path = bin/data/base.vert; sourceTree = SOURCE_ROOT; };
 		6F389F54237F27230043135F /* base.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = base.frag; path = bin/data/base.frag; sourceTree = SOURCE_ROOT; };
@@ -79,6 +78,7 @@
 		6F389F60238209BA0043135F /* depth.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = depth.frag; path = bin/data/depth.frag; sourceTree = SOURCE_ROOT; };
 		6F40167D23D9B64F00580498 /* render.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
 		6F40167E23D9B64F00580498 /* render.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = render.hpp; sourceTree = "<group>"; };
+		6F40168023D9C9F100580498 /* threshold.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = threshold.frag; path = bin/data/threshold.frag; sourceTree = SOURCE_ROOT; };
 		6FEDA0F723D897CA00E13BEC /* postProcessing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = postProcessing.cpp; sourceTree = "<group>"; };
 		6FEDA0F823D897CA00E13BEC /* postProcessing.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = postProcessing.hpp; sourceTree = "<group>"; };
 		78D67A00EB899FAC09430597 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxLabel.cpp; path = ../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
@@ -798,7 +798,7 @@
 				6F389F55237F346B0043135F /* vague.frag */,
 				6F389F56237F39480043135F /* chromatic.frag */,
 				6F389F57237F88AD0043135F /* pixelated.frag */,
-				6F1A83E52383147F0012E7C8 /* grayscale.frag */,
+				6F40168023D9C9F100580498 /* threshold.frag */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
