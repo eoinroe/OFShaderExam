@@ -12,6 +12,8 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 
+using namespace glm;
+
 class Render
 {
 public:

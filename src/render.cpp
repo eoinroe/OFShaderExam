@@ -89,8 +89,6 @@ void Render::draw()
     ofEnableDepthTest();
     camera.begin();
     
-    ofBackground(255);
-    
     shader.begin();
     shader.setUniform1f( "size", sliders[0]);
     shader.setUniform1f( "waviness", sliders[1] );
@@ -99,7 +97,7 @@ void Render::draw()
     shader.setUniformTexture( "tex0", texture, 0 );
     
     if (lightingEnabled)
-        shader.setUniform3f( "lightColor", float(lightColor->r) / 255.0f, float(lightColor->g) / 255.0f, float(lightColor->b) / 255.0f );
+        shader.setUniform3f( "lightColor",vec3(lightColor->r, lightColor->g, lightColor->b) / 255.0f );
     
     ofPushMatrix();
     ofScale(50);

@@ -46,7 +46,8 @@ void ofApp::draw(){
     fbo.begin();
     
     // Seems like it is important to do this here - but not necessarily in setup!
-    ofClear(0, 0, 0);
+    // This clears the fbo and sets the background to white
+    ofClear(255);
     
     render.draw();
     fbo.end();
