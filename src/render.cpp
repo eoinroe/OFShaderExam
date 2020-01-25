@@ -44,10 +44,14 @@ void Render::update()
         if (!triggered[0]){
             triggered[0] = true;
             
+            // This kind of works but causes a little stutter because after the first if statement
+            // if (sliders[0] > 0.0f) it then sets sliders[0] back to zero too!
+            replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
+            
             // Set all other sliders to 0
-            for (int i = 0; i < sliders.size(); ++i){
+            for (int i = 0; i < triggered.size(); ++i){
                 if (i != 0){
-                    sliders[i] = 0.0f;
+                    //sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -59,12 +63,14 @@ void Render::update()
             triggered[1] = true;
             
             // Set all other sliders to 0
-            for (int i = 0; i < sliders.size(); ++i){
+            for (int i = 0; i < triggered.size(); ++i){
                 if (i != 1){
                     sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
+            
+            //replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
         }
     }
     
@@ -79,6 +85,8 @@ void Render::update()
                     triggered[i] = false;
                 }
             }
+            
+            //replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
         }
     }
 }
