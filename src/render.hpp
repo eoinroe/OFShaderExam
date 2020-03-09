@@ -12,6 +12,8 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 
+using namespace glm;
+
 class Render
 {
 public:
@@ -27,10 +29,11 @@ private:
     ofTexture texture;
     ofxAssimpModelLoader model;
     
-    ofParameter<bool> lightingEnabled = false;
-    ofParameter<bool> wireframe = false;
-    
     ofParameter<ofColor> lightColor;
+    ofParameter<bool> lightingEnabled = false;
+    
+    ofParameter<int> tessellationLevel;
+    ofParameter<bool> wireframe = false;
     
     array<ofParameter<float>, 3> sliders;
     array<bool, 3> triggered = {false};

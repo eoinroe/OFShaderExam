@@ -1,0 +1,68 @@
+#version 410 core
+
+layout(triangles, equal_spacing, cw) in;
+
+in vec3 tcPosition[];
+in vec3 tcNormal[];
+in vec2 tcTexcoord[];
+
+out vec2 teTexcoord;
+out vec3 viewSpaceNormal;
+
+uniform float twistFactor;
+uniform float waviness;
+uniform float chubbiness;
+
+uniform mat4 viewMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 modelViewProjectionMatrix;
+
+mat4 rotationAroundY(float angle) {
+    return mat4(cos(angle), 0.0, -sin(angle), 0.0,
+                0.0,        1.0,  0.0,        0.0,
+                sin(angle), 0.0,  cos(angle), 0.0,
+                0.0,        0.0,  0.0,        1.0);
+}
+
+void main() {
+    
+    vec3 p0 = gl_TessCoord.x * tcPosition[0];
+    vec3 p1 = gl_TessCoord.y * tcPosition[1];
+    vec3 p2 = gl_TessCoord.z * tcPosition[2];
+
+    vec3 tePosition = p0 + p1 + p2;
+    
+    vec2 t0 = gl_TessCoord.x * tcTexcoord[0];
+    vec2 t1 = gl_TessCoord.y * tcTexcoord[1];
+    vec2 t2 = gl_TessCoord.z * tcTexcoord[2];
+    
+    teTexcoord = t0 + t1 + t2;
+    
+    vec3 n0 = gl_TessCoord.x * tcNormal[0];
+    vec3 n1 = gl_TessCoord.y * tcNormal[1];
+    vec3 n2 = gl_TessCoord.z * tcNormal[2];
+
+    // Fixed error with normals, however, it feels as if they aren't being updated in the same way...
+    vec3 teNormal = normalize(n0 + n1 + n2);
+    
+    // Could something like this work?
+    // vec3 teNormal = normalize( cross(p2 - p0, p1 - p0) );
+    // vec3 teNormal = normalize( cross(n2 - n0, n1 - n0) );
+    
+    // In this app shading from the sun does not depend on where the camera is since we are using a directional light
+    // So maybe view space normal is the wrong variable name here?
+    viewSpaceNormal = (modelViewProjectionMatrix * vec4(teNormal, 0.0)).xyz;
+    
+    float rotationAngleY = tePosition.y * twistFactor;
+    vec4 pos = vec4(tePosition, 1.0) * rotationAroundY(rotationAngleY);
+        
+    // Inflate the model
+    vec4 worldSpacePos = modelMatrix * pos;
+    worldSpacePos.xyz += teNormal * chubbiness;
+    
+    // Waviness
+    worldSpacePos.x += sin(worldSpacePos.y / 50.0f) * waviness;
+    
+    gl_Position = projectionMatrix * viewMatrix * worldSpacePos;
+}

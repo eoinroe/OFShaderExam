@@ -1,0 +1,27 @@
+#version 410 core
+
+layout(vertices = 3) out;   
+
+uniform int u_tessLevel;
+
+in vec3 vPosition[];
+in vec3 vNormal[];
+in vec2 vTexcoord[];
+
+out vec3 tcPosition[];
+out vec3 tcNormal[];
+out vec2 tcTexcoord[];
+
+#define ID gl_InvocationID
+
+void main(void)
+{
+    tcPosition[ID] = vPosition[ID];
+    tcNormal[ID] = vNormal[ID];
+    tcTexcoord[ID] = vTexcoord[ID];
+
+    gl_TessLevelInner[0] = u_tessLevel;
+    gl_TessLevelOuter[0] = u_tessLevel;
+    gl_TessLevelOuter[1] = u_tessLevel;
+    gl_TessLevelOuter[2] = u_tessLevel;
+}

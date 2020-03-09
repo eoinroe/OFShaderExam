@@ -128,10 +128,10 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Threshold" << endl;
-            shader.load("post.vert", "grayscale.frag");
+            shader.load("post.vert", "threshold.frag");
         }
         
-        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.5f, 0.75f);
+        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.65f, 0.75f);
         
         shader.begin();
         shader.setUniform1f( "threshold", threshold );

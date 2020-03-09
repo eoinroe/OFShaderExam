@@ -68,9 +68,11 @@
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
 		6A0E743407465957DB764ED3 /* mesh.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = mesh.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/mesh.h; sourceTree = SOURCE_ROOT; };
 		6E069CE4C58E970E3429DBE5 /* Importer.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = Importer.hpp; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/Importer.hpp; sourceTree = SOURCE_ROOT; };
+		6F2895AD241676390056DCD7 /* tessellation.eval */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tessellation.eval; path = bin/data/tessellation.eval; sourceTree = SOURCE_ROOT; };
+		6F2895AE241676390056DCD7 /* tessellation.cont */ = {isa = PBXFileReference; lastKnownFileType = file; name = tessellation.cont; path = bin/data/tessellation.cont; sourceTree = SOURCE_ROOT; };
+		6F2895AF241676390056DCD7 /* tessellation.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tessellation.frag; path = bin/data/tessellation.frag; sourceTree = SOURCE_ROOT; };
+		6F2895B0241676390056DCD7 /* tessellation.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = tessellation.vert; path = bin/data/tessellation.vert; sourceTree = SOURCE_ROOT; };
 		6F389F52237F257C0043135F /* crash.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = crash.frag; path = bin/data/crash.frag; sourceTree = SOURCE_ROOT; };
-		6F389F53237F257C0043135F /* base.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = base.vert; path = bin/data/base.vert; sourceTree = SOURCE_ROOT; };
-		6F389F54237F27230043135F /* base.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = base.frag; path = bin/data/base.frag; sourceTree = SOURCE_ROOT; };
 		6F389F55237F346B0043135F /* vague.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = vague.frag; path = bin/data/vague.frag; sourceTree = SOURCE_ROOT; };
 		6F389F56237F39480043135F /* chromatic.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = chromatic.frag; path = bin/data/chromatic.frag; sourceTree = SOURCE_ROOT; };
 		6F389F57237F88AD0043135F /* pixelated.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = pixelated.frag; path = bin/data/pixelated.frag; sourceTree = SOURCE_ROOT; };
@@ -790,8 +792,6 @@
 				6F40167E23D9B64F00580498 /* render.hpp */,
 				6FEDA0F723D897CA00E13BEC /* postProcessing.cpp */,
 				6FEDA0F823D897CA00E13BEC /* postProcessing.hpp */,
-				6F389F53237F257C0043135F /* base.vert */,
-				6F389F54237F27230043135F /* base.frag */,
 				6F389F5F238207090043135F /* post.vert */,
 				6F389F60238209BA0043135F /* depth.frag */,
 				6F389F52237F257C0043135F /* crash.frag */,
@@ -799,6 +799,10 @@
 				6F389F56237F39480043135F /* chromatic.frag */,
 				6F389F57237F88AD0043135F /* pixelated.frag */,
 				6F40168023D9C9F100580498 /* threshold.frag */,
+				6F2895B0241676390056DCD7 /* tessellation.vert */,
+				6F2895AE241676390056DCD7 /* tessellation.cont */,
+				6F2895AD241676390056DCD7 /* tessellation.eval */,
+				6F2895AF241676390056DCD7 /* tessellation.frag */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

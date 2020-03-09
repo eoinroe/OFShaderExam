@@ -12,6 +12,7 @@ Render::Render()
 {
     parameters[0].setName("Tessellation");
     parameters[0].add(wireframe.set("Wireframe Mode", false));
+    parameters[0].add(tessellationLevel.set("Tessellation Level", 1, 1, 12));
     
     parameters[1].setName("Lighting");
     parameters[1].add(lightingEnabled.set("Directional Light", false));
@@ -22,16 +23,25 @@ Render::Render()
     parameters[2].add(sliders[1].set("Waviness", 0, 0, 75));
     parameters[2].add(sliders[2].set("Twist Factor", 0.0f, 0.0f, 1.0f));
     
-    // Tessellation has been applied in Blender to improve the appearance
-    // of the model when mesh deformation is applied in the vertex shader
+    // No tessellation has been applied in Blender, we are instead using a tessellation shader to
+    // improve the appearance of the model when mesh deformation is applied in the vertex shader
     model.loadModel("pikachu.obj");
     mesh = model.getMesh(0);
+    
+    // We need to use patch primitives for tessellation
+    mesh.setMode(OF_PRIMITIVE_PATCHES);
     
     // Using normalized texture coordinates
     ofDisableArbTex();
     ofLoadImage(texture, "pikachu.png");
     
-    shader.load("base");
+    shader.setupShaderFromFile(GL_VERTEX_SHADER, "tessellation.vert");
+    shader.setupShaderFromFile(GL_TESS_CONTROL_SHADER, "tessellation.cont");
+    shader.setupShaderFromFile(GL_TESS_EVALUATION_SHADER, "tessellation.eval");
+    shader.setupShaderFromFile(GL_FRAGMENT_SHADER, "tessellation.frag");
+    
+    shader.bindDefaults();
+    shader.linkProgram();
     
     // Move camera forward a little so depth texture is visible
     camera.setPosition(0, 0, 525);
@@ -44,14 +54,10 @@ void Render::update()
         if (!triggered[0]){
             triggered[0] = true;
             
-            // This kind of works but causes a little stutter because after the first if statement
-            // if (sliders[0] > 0.0f) it then sets sliders[0] back to zero too!
-            replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
-            
             // Set all other sliders to 0
             for (int i = 0; i < triggered.size(); ++i){
                 if (i != 0){
-                    //sliders[i] = 0.0f;
+                    sliders[i] = 0.0f;
                     triggered[i] = false;
                 }
             }
@@ -69,8 +75,6 @@ void Render::update()
                     triggered[i] = false;
                 }
             }
-            
-            //replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
         }
     }
     
@@ -85,8 +89,6 @@ void Render::update()
                     triggered[i] = false;
                 }
             }
-            
-            //replace_if (begin(sliders), end(sliders), [](float i){ return i > 0.0f; }, 0.0f);
         }
     }
 }
@@ -100,14 +102,15 @@ void Render::draw()
     ofBackground(255);
     
     shader.begin();
-    shader.setUniform1f( "size", sliders[0]);
+    shader.setUniform1f( "chubbiness", sliders[0] );
     shader.setUniform1f( "waviness", sliders[1] );
     shader.setUniform1f( "twistFactor", sliders[2] );
+    shader.setUniform1i( "u_tessLevel", tessellationLevel );
     shader.setUniform1i( "lightingEnabled", lightingEnabled );
     shader.setUniformTexture( "tex0", texture, 0 );
     
     if (lightingEnabled)
-        shader.setUniform3f( "lightColor", float(lightColor->r) / 255.0f, float(lightColor->g) / 255.0f, float(lightColor->b) / 255.0f );
+        shader.setUniform3f( "lightColor", vec3(lightColor->r, lightColor->g, lightColor->b) / 255.0f );
     
     ofPushMatrix();
     ofScale(50);
