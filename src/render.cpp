@@ -24,14 +24,14 @@ Render::Render()
     
     // Tessellation has been applied in Blender to improve the appearance
     // of the model when mesh deformation is applied in the vertex shader
-    model.loadModel("pikachu.obj");
+    model.loadModel("Model/pikachu.obj");
     mesh = model.getMesh(0);
     
     // Using normalized texture coordinates
     ofDisableArbTex();
-    ofLoadImage(texture, "pikachu.png");
+    ofLoadImage(texture, "Model/pikachu.png");
     
-    shader.load("base");
+    shader.load("Shaders/base");
     
     // Move camera forward a little so depth texture is visible
     camera.setPosition(0, 0, 525);

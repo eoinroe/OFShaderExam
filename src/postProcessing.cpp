@@ -35,7 +35,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Chromatic abberation" << endl;
-            shader.load("post.vert", "chromatic.frag");
+            shader.load("Shaders/post.vert", "Shaders/chromatic.frag");
         }
         
         shader.begin();
@@ -58,7 +58,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Crash" << endl;
-            shader.load("post.vert", "crash.frag");
+            shader.load("Shaders/post.vert", "Shaders/crash.frag");
         }
                 
         shader.begin();
@@ -82,7 +82,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Wavy" << endl;
-            shader.load("post.vert", "vague.frag");
+            shader.load("Shaders/post.vert", "Shaders/vague.frag");
         }
         
         shader.begin();
@@ -105,7 +105,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Pixelated" << endl;
-            shader.load("post.vert", "pixelated.frag");
+            shader.load("Shaders/post.vert", "Shaders/pixelated.frag");
         }
         
         shader.begin();
@@ -128,7 +128,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Threshold" << endl;
-            shader.load("post.vert", "threshold.frag");
+            shader.load("Shaders/post.vert", "Shaders/threshold.frag");
         }
         
         float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.5f, 0.75f);
@@ -152,7 +152,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             }
             
             cout << "Depth texture" << endl;
-            shader.load("post.vert", "depth.frag");
+            shader.load("Shaders/post.vert", "Shaders/depth.frag");
         }
         
         shader.begin();
