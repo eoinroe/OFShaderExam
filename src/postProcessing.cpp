@@ -131,7 +131,7 @@ void PostProcessing::draw(const ofFbo &fbo)
             shader.load("Shaders/post.vert", "Shaders/threshold.frag");
         }
         
-        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.5f, 0.75f);
+        float threshold = ofMap(sliders[4].get(), 0.0f, 1.0f, 0.6f, 0.75f);
         
         shader.begin();
         shader.setUniform1f( "threshold", threshold );
